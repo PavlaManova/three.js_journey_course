@@ -18,30 +18,16 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 /**
- * Textures
- */
-const textureLoader = new THREE.TextureLoader();
-
-/**
  * Test mesh
  */
 // Geometry
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
 
-const count = geometry.attributes.position.count;
-const randoms = new Float32Array(count);
-
-for (let i = 0; i < count; i++) {
-  randoms[i] = Math.random();
-}
-
-geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
-
 // Material
-const material = new THREE.RawShaderMaterial({
+const material = new THREE.ShaderMaterial({
   vertexShader: testVertexShader,
   fragmentShader: testFragmentShader,
-  transparent: true,
+  side: THREE.DoubleSide,
 });
 
 // Mesh
@@ -99,11 +85,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 /**
  * Animate
  */
-const clock = new THREE.Clock();
-
 const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
-
   // Update controls
   controls.update();
 
